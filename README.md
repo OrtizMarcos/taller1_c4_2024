@@ -1,6 +1,7 @@
 # Tareas
 
 [Tarea 1](tarea1.md)
+[Tarea 2](tarea2.md)
 
 # code-with-quarkus
 
