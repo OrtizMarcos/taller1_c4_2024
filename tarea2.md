@@ -18,24 +18,27 @@ La inyección de dependencias en Quarkus sigue el modelo CDI (Contexts and Depen
 
 Un servicio en Quarkus se define utilizando la anotación `@ApplicationScoped` sobre la clase del servicio. Esto indica que la clase tendrá una única instancia que será compartida a través de la aplicación.
 
-````java
+```java
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class MyService {
     // Lógica del servicio
 }
+```
 
 ### ¿Por qué es importante manejar correctamente los alcances (scopes) en Quarkus al crear servicios?
 
-Manejar correctamente los *scopes* es crucial para garantizar el uso eficiente de los recursos y evitar problemas como la fuga de memoria o la creación innecesaria de instancias. Por ejemplo, un `@RequestScoped` puede ser útil para servicios que manejan datos de usuario temporal, mientras que un `@ApplicationScoped` es más adecuado para servicios que deben mantenerse a lo largo del ciclo de vida de la aplicación.
+Manejar correctamente los _scopes_ es crucial para garantizar el uso eficiente de los recursos y evitar problemas como la fuga de memoria o la creación innecesaria de instancias. Por ejemplo, un `@RequestScoped` puede ser útil para servicios que manejan datos de usuario temporal, mientras que un `@ApplicationScoped` es más adecuado para servicios que deben mantenerse a lo largo del ciclo de vida de la aplicación.
 
 # Sección 2: Creación de un ApiResponse Genérico
 
 ### ¿Qué es un ApiResponse genérico y cuál es su propósito en un servicio REST?
+
 Un `ApiResponse` genérico es una clase que envuelve la respuesta del servidor y estructura los datos en un formato consistente. Su propósito es estandarizar las respuestas de la API, facilitando la gestión de errores y éxitos de manera uniforme en todos los endpoints del servicio REST.
 
 ### ¿Cómo se implementa una clase ApiResponse genérica en Quarkus?
+
 Se puede implementar una clase `ApiResponse` genérica utilizando plantillas de tipo (generics) para encapsular datos y mensajes de estado:
 
 ```java
@@ -52,7 +55,7 @@ public class ApiResponse<T> {
         this.success = success;
     }
 }
-````
+```
 
 ### ¿Cómo se modifica un recurso REST en Quarkus para que utilice un ApiResponse genérico?
 
