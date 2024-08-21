@@ -1,37 +1,58 @@
 package ucom.py.controllers;
+import java.util.HashMap;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import ucom.py.entities.HolaMundo;
+
 
 @Path("/recursos-basicos")
 public class RecursosBasicos {
-
     @GET
-    @Path("/Chau")
     @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Op i'm a new resource";
+    public String recursoBasicoTest() {
+        return "Se crea un nuevo recurso en OpenApi";
     }
 
     @GET
-    @Path("/Suma")
+    @Path("suma")
     @Produces(MediaType.TEXT_PLAIN)
-    public int Suma(@QueryParam("a") int a, @QueryParam("b") int b) {
-    return a + b;}
-    
+    public Integer suma() {
+        return 5 + 5;
+    }
+
     @GET
-    @Path("/saludar/{nombre}")
+    @Path("resta")
     @Produces(MediaType.TEXT_PLAIN)
-    public String saludar(@PathParam("nombre") String nombre) {
-        return "Hola, " + nombre;
+    public Integer resta() {
+        return 100 - 5;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public HashMap<String, Object> respuestaPost(HashMap<String, Object> param) {
+        System.out.println(param.get("joni"));
+        return param;
+    }
+
+    @POST
+    @Path("hola")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public HolaMundo holaMundo(HolaMundo param) {
+        System.out.println(param);
+        return param;
+    }
+
 }
 
 
 
 
 
-}
+
