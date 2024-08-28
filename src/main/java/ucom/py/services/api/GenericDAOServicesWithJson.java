@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import ucom.py.config.GenericDAO;
 import ucom.py.entities.apiresponse.Gastos;
-import ucom.py.reository.ApiResponseRepository;
+import ucom.py.repository.ApiResponseRepository;
 
 @ApplicationScoped
 public class GenericDAOServicesWithJson implements GenericDAO<Gastos, Integer> {

@@ -1,5 +1,4 @@
-package ucom.py.reository;
-
+package ucom.py.repository;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,15 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import ucom.py.entities.apiresponse.Gastos;
-
 @ApplicationScoped
-public class ApiResponseRepository {
-
-    private static final String FILE_PATH = "src/main/resources/data/gastos.json";
+public class PresupuestoRepository {
+    private static final String FILE_PATH = "src/main/resources/data/presupuesto.json";
     private List<Gastos> gastosList;
     private ObjectMapper objectMapper;
 
-    public ApiResponseRepository() {
+    public PresupuestoRepository() {
         objectMapper = new ObjectMapper();
         gastosList = cargarDatos();
     }
@@ -98,4 +95,5 @@ public class ApiResponseRepository {
                 .collect(Collectors.toList());
         guardarDatos();
     }
+
 }
