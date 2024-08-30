@@ -1,0 +1,50 @@
+{
+  "presupuestos": [
+    {
+      "id": 1,
+      "fechaInicio": "2024-01-01",
+      "fechaFin": "2024-12-31",
+      "montoPresupuestado": 500000,
+      "gastos": [
+        {
+          "id": 1,
+          "fecha": 1724198400000,
+          "monto": 50000,
+          "descripcion": "Compra de equipos"
+        },
+        {
+          "id": 2,
+          "fecha": 1724284800000,
+          "monto": 100000,
+          "descripcion": "Servicios de consultoría"
+        },
+        {
+          "id": 3,
+          "fecha": 1724371200000,
+          "monto": 150000,
+          "descripcion": "Marketing y publicidad"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "fechaInicio": "2024-03-01",
+      "fechaFin": "2024-09-30",
+      "montoPresupuestado": 250000,
+      "gastos": [
+        {
+          "id": 1,
+          "fecha": 1724457600000,
+          "monto": 75000,
+          "descripcion": "Rediseño del sitio web"
+        },
+        {
+          "id": 2,
+          "fecha": 1724544000000,
+          "monto": 50000,
+          "descripcion": "Capacitación de personal"
+        }
+      ]
+    }
+  ]
+}

@@ -1,37 +1,34 @@
 package ucom.py.repository;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import ucom.py.entities.apiresponse.Gastos;
+import ucom.py.entities.Presupuesto;
+
 @ApplicationScoped
 public class PresupuestoRepository {
     private static final String FILE_PATH = "src/main/resources/data/presupuesto.json";
-    private List<Gastos> gastosList;
+    private List<Presupuesto> presupuestoList;
     private ObjectMapper objectMapper;
 
     public PresupuestoRepository() {
         objectMapper = new ObjectMapper();
-        gastosList = cargarDatos();
+        presupuestoList = cargarDatos();
     }
 
-    private List<Gastos> cargarDatos() {
+    public List<Presupuesto> cargarDatos() {
         try {
-            System.out.println("CARGA DE DATOS" + FILE_PATH);
             File file = new File(FILE_PATH);
             if (file.exists()) {
-                return objectMapper.readValue(file, new TypeReference<List<Gastos>>() {
-                });
+                return objectMapper.readValue(file, new TypeReference<List<Presupuesto>>() {});
             } else {
-
-                System.out.println("UPSSS NO HAY DATOS");
                 return new ArrayList<>();
             }
         } catch (IOException e) {
@@ -40,60 +37,45 @@ public class PresupuestoRepository {
         }
     }
 
-    private void guardarDatos() {
+    public void guardarDatos() {
         try {
-            objectMapper.writeValue(new File(FILE_PATH), gastosList);
+            objectMapper.writeValue(new File(FILE_PATH), presupuestoList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Gastos obtenerById(Integer id) {
-        return gastosList.stream()
-                .filter(gasto -> gasto.getId().equals(id))
+    public Presupuesto obtenerById(Integer id) {
+        return presupuestoList.stream()
+                .filter(presupuesto -> presupuesto.getId() == id) // Comparación directa
                 .findFirst()
                 .orElse(null);
     }
+    
 
-    public List<Gastos> listar() {
 
-        return new ArrayList<>(gastosList);
+    public List<Presupuesto> listar() {
+        return new ArrayList<>(presupuestoList);
     }
 
-    public Gastos agregar(Gastos param) {
-        Integer newId = gastosList.isEmpty() ? 1
-                : gastosList.stream()
-                        .mapToInt(Gastos::getId)
+    public Presupuesto agregarPresupuesto(Presupuesto param) {
+        Integer newId = presupuestoList.isEmpty() ? 1
+                : presupuestoList.stream()
+                        .mapToInt(Presupuesto::getId)
                         .max()
                         .getAsInt() + 1;
 
         param.setId(newId);
-        gastosList.add(param);
+        presupuestoList.add(param);
         guardarDatos();
         return param;
     }
 
-    public Gastos modificar(Gastos param) {
-        Optional<Gastos> existingGasto = gastosList.stream()
-                .filter(gasto -> gasto.getId().equals(param.getId()))
-                .findFirst();
-
-        if (existingGasto.isPresent()) {
-            gastosList = gastosList.stream()
-                    .map(gasto -> gasto.getId().equals(param.getId()) ? param : gasto)
-                    .collect(Collectors.toList());
-            guardarDatos();
-            return param;
-        } else {
-            return null;
-        }
-    }
-
     public void eliminar(Integer id) {
-        gastosList = gastosList.stream()
-                .filter(gasto -> !gasto.getId().equals(id))
+        presupuestoList = presupuestoList.stream()
+                .filter(presupuesto -> !Integer.valueOf(presupuesto.getId()).equals(id)) // Convierte int a Integer
                 .collect(Collectors.toList());
         guardarDatos();
     }
-
+    
 }
