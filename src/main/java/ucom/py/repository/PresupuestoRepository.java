@@ -22,11 +22,11 @@ public class PresupuestoRepository {
         objectMapper = new ObjectMapper();
         presupuestoList = cargarDatos();
     }
-
     public List<Presupuesto> cargarDatos() {
         try {
             File file = new File(FILE_PATH);
             if (file.exists()) {
+                System.out.println("Datos cargados: " + presupuestoList);
                 return objectMapper.readValue(file, new TypeReference<List<Presupuesto>>() {});
             } else {
                 return new ArrayList<>();
@@ -46,11 +46,11 @@ public class PresupuestoRepository {
     }
 
     public Presupuesto obtenerById(Integer id) {
-        return presupuestoList.stream()
-                .filter(presupuesto -> presupuesto.getId() == id) // Comparación directa
-                .findFirst()
-                .orElse(null);
-    }
+    return presupuestoList.stream()
+            .filter(presupuesto -> presupuesto.getId() == id) 
+            .findFirst()
+            .orElse(null);
+}
     
 
 
@@ -73,7 +73,7 @@ public class PresupuestoRepository {
 
     public void eliminar(Integer id) {
         presupuestoList = presupuestoList.stream()
-                .filter(presupuesto -> !Integer.valueOf(presupuesto.getId()).equals(id)) // Convierte int a Integer
+                .filter(presupuesto -> !Integer.valueOf(presupuesto.getId()).equals(id)) 
                 .collect(Collectors.toList());
         guardarDatos();
     }

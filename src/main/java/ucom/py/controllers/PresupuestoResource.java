@@ -5,6 +5,7 @@ import ucom.py.entities.Gasto;
 import ucom.py.repository.PresupuestoRepository;
 
 import java.util.List;
+import jakarta.inject.Inject; // Importar @Inject
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -19,12 +20,8 @@ import jakarta.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PresupuestoResource {
 
-    private PresupuestoRepository presupuestoRepository = new PresupuestoRepository();
-
-    public PresupuestoResource() {
-        // Cargo los datos del archivo JSON al iniciar el recurso
-        presupuestoRepository.cargarDatos();
-    }
+    @Inject
+    private PresupuestoRepository presupuestoRepository; // Inyección del repositorio
 
     @GET
     public Response getPresupuestos() {
@@ -54,43 +51,41 @@ public class PresupuestoResource {
     }
 
     @POST
-@Path("/agregar-gasto/{presupuestoId}")
-public Response agregarGasto(@PathParam("presupuestoId") int id, Gasto nuevoGasto) {
-    // Agrego un nuevo gasto al presupuesto específico
-    Presupuesto presupuesto = presupuestoRepository.obtenerById(id);
-    if (presupuesto != null) {
-        // Calculo el total de los gastos actuales usando mapToDouble
-        double totalGastos = presupuesto.getGastos().stream()
-            .mapToDouble(Gasto::getMonto) // Usa mapToDouble si getMonto() devuelve double
-            .sum();
-        // Verifico si el nuevo gasto no supera el monto presupuestado
-        if (totalGastos + nuevoGasto.getMonto() <= presupuesto.getMontoPresupuestado()) {
-            presupuesto.getGastos().add(nuevoGasto);
-            presupuestoRepository.guardarDatos();
-            return Response.ok(presupuesto).build();
+    @Path("/agregar-gasto/{presupuestoId}")
+    public Response agregarGasto(@PathParam("presupuestoId") int id, Gasto nuevoGasto) {
+        // Agrego un nuevo gasto al presupuesto específico
+        Presupuesto presupuesto = presupuestoRepository.obtenerById(id);
+        if (presupuesto != null) {
+            // Calculo el total de los gastos actuales usando mapToDouble
+            double totalGastos = presupuesto.getGastos().stream()
+                .mapToDouble(Gasto::getMonto) // Usa mapToDouble si getMonto() devuelve double
+                .sum();
+            // Verifico si el nuevo gasto no supera el monto presupuestado
+            if (totalGastos + nuevoGasto.getMonto() <= presupuesto.getMontoPresupuestado()) {
+                presupuesto.getGastos().add(nuevoGasto);
+                presupuestoRepository.guardarDatos();
+                return Response.ok(presupuesto).build();
+            } else {
+                return Response.status(Response.Status.BAD_REQUEST).entity("El gasto supera el monto presupuestado").build();
+            }
         } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("El gasto supera el monto presupuestado").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("Presupuesto no encontrado").build();
         }
-    } else {
-        return Response.status(Response.Status.NOT_FOUND).entity("Presupuesto no encontrado").build();
     }
-}
 
-
-@GET
-@Path("/total-gastos/{presupuestoId}")
-public Response getTotalGastos(@PathParam("presupuestoId") int id) {
-    // Calculo la sumatoria de los gastos de un presupuesto específico
-    Presupuesto presupuesto = presupuestoRepository.obtenerById(id);
-    if (presupuesto != null) {
-        // Calculo el total de los gastos actuales usando mapToDouble
-        double totalGastos = presupuesto.getGastos().stream()
-            .mapToDouble(Gasto::getMonto) // Usa mapToDouble si getMonto() devuelve double
-            .sum();
-        return Response.ok(totalGastos).build();
-    } else {
-        return Response.status(Response.Status.NOT_FOUND).entity("Presupuesto no encontrado").build();
+    @GET
+    @Path("/total-gastos/{presupuestoId}")
+    public Response getTotalGastos(@PathParam("presupuestoId") int id) {
+        // Calculo la sumatoria de los gastos de un presupuesto específico
+        Presupuesto presupuesto = presupuestoRepository.obtenerById(id);
+        if (presupuesto != null) {
+            // Calculo el total de los gastos actuales usando mapToDouble
+            double totalGastos = presupuesto.getGastos().stream()
+                .mapToDouble(Gasto::getMonto) // Usa mapToDouble si getMonto() devuelve double
+                .sum();
+            return Response.ok(totalGastos).build();
+        } else {
+            return Response.status(Response.Status.NOT_FOUND).entity("Presupuesto no encontrado").build();
+        }
     }
-}
-
 }
