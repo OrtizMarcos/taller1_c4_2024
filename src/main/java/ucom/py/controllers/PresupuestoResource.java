@@ -5,7 +5,7 @@ import ucom.py.entities.Gasto;
 import ucom.py.repository.PresupuestoRepository;
 
 import java.util.List;
-import jakarta.inject.Inject; // Importar @Inject
+import jakarta.inject.Inject; 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.MediaType;
 public class PresupuestoResource {
 
     @Inject
-    private PresupuestoRepository presupuestoRepository; // Inyección del repositorio
+    private PresupuestoRepository presupuestoRepository;
 
     @GET
     public Response getPresupuestos() {
@@ -58,7 +58,7 @@ public class PresupuestoResource {
         if (presupuesto != null) {
             // Calculo el total de los gastos actuales usando mapToDouble
             double totalGastos = presupuesto.getGastos().stream()
-                .mapToDouble(Gasto::getMonto) // Usa mapToDouble si getMonto() devuelve double
+                .mapToDouble(Gasto::getMonto)
                 .sum();
             // Verifico si el nuevo gasto no supera el monto presupuestado
             if (totalGastos + nuevoGasto.getMonto() <= presupuesto.getMontoPresupuestado()) {
@@ -81,7 +81,7 @@ public class PresupuestoResource {
         if (presupuesto != null) {
             // Calculo el total de los gastos actuales usando mapToDouble
             double totalGastos = presupuesto.getGastos().stream()
-                .mapToDouble(Gasto::getMonto) // Usa mapToDouble si getMonto() devuelve double
+                .mapToDouble(Gasto::getMonto)
                 .sum();
             return Response.ok(totalGastos).build();
         } else {
