@@ -20,7 +20,7 @@ import ucom.py.model.response.ApiResponse;
 import ucom.py.services.api.ApiResponseService;
 import ucom.py.services.api.GenericDAOServicesWithJson;
 
-@Path("/api-examples")
+@Path("/api-example")
 public class ApiResponseResource {
     @Inject
     private ApiResponseService servicioConInject;
