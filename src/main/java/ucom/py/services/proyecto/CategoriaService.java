@@ -1,51 +1,40 @@
 package ucom.py.services.proyecto;
 
-
-import java.util.List;
-
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
-import ucom.py.config.GenericDAO;
+import jakarta.inject.Inject;
 import ucom.py.entities.proyecto.Categoria;
 import ucom.py.repository.proyecto.CategoriaRepository;
 
+import java.util.List;
+
 @ApplicationScoped
-public class CategoriaService implements GenericDAO<Categoria, Integer> {
+public class CategoriaService {
 
-    private final CategoriaRepository repository;
+    @Inject
+    CategoriaRepository categoriaRepository;
 
-    public CategoriaService(CategoriaRepository repository) {
-        this.repository = repository;
+    // Obtener una categoría por ID
+    public Categoria obtenerPorId(Integer id) {
+        return categoriaRepository.findById(id);
     }
 
-    @Override
-    public List<Categoria> listar() {
-        return this.repository.findAll().list();
+    // Listar todas las categorías
+    public List<Categoria> listarTodas() {
+        return categoriaRepository.listAll();
     }
 
-    @Override
-    public Categoria obtener(Integer id) {
-        return this.repository.findById(id);
+    // Agregar una nueva categoría
+    public void agregar(Categoria categoria) {
+        categoriaRepository.persist(categoria);
     }
 
-    @Override
-    @Transactional
-    public void eliminar(Integer id) {
-        this.repository.deleteById(id);
+    // Modificar una categoría existente
+    public void modificar(Categoria categoria) {
+        categoriaRepository.persist(categoria);
     }
 
-    @Override
-    @Transactional
-    public Categoria modificar(Categoria param) {
-
-        return this.repository.getEntityManager().merge(param);
+    // Eliminar una categoría por ID
+    public boolean eliminarPorId(Integer id) {
+        return categoriaRepository.deleteById(id);
     }
-
-    @Override
-    @Transactional
-    public Categoria agregar(Categoria param) {
-        this.repository.persist(param);
-        return null;
-    }
-
 }

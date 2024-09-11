@@ -17,10 +17,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-/**
- *
- * @author jhony
- */
+
 @Entity
 @Table(name = "movimientos")
 @NamedQueries({
@@ -125,7 +122,7 @@ public class Movimientos implements Serializable {
 
     @Override
     public String toString() {
-        return "py.edu.ucom.entities.proyecto.Movimientos[ idMovimiento=" + idMovimiento + " ]";
+        return "ucom.py.entities.proyecto.Movimientos[ idMovimiento=" + idMovimiento + " ]";
     }
 
 }

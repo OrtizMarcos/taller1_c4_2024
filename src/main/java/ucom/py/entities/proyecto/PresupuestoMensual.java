@@ -1,30 +1,12 @@
 package ucom.py.entities.proyecto;
 
-
+import jakarta.json.bind.annotation.JsonbDateFormat;
+import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-/**
- *
- * @author jhony
- */
 @Entity
 @Table(name = "presupuesto_mensual")
 @NamedQueries({
@@ -34,56 +16,53 @@ import jakarta.persistence.TemporalType;
     @NamedQuery(name = "PresupuestoMensual.findByFechaFin", query = "SELECT p FROM PresupuestoMensual p WHERE p.fechaFin = :fechaFin"),
     @NamedQuery(name = "PresupuestoMensual.findBySaldoInicial", query = "SELECT p FROM PresupuestoMensual p WHERE p.saldoInicial = :saldoInicial"),
     @NamedQuery(name = "PresupuestoMensual.findBySaldoFinal", query = "SELECT p FROM PresupuestoMensual p WHERE p.saldoFinal = :saldoFinal"),
-    @NamedQuery(name = "PresupuestoMensual.findByEstado", query = "SELECT p FROM PresupuestoMensual p WHERE p.estado = :estado")})
+    @NamedQuery(name = "PresupuestoMensual.findByEstado", query = "SELECT p FROM PresupuestoMensual p WHERE p.estado = :estado")
+})
 public class PresupuestoMensual implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id_presupuesto")
+    @JsonIgnore
     private Integer idPresupuesto;
-    @Basic(optional = false)
+
+    @JsonbDateFormat("yyyy-MM-dd")
     @Column(name = "fecha_incio")
-    @Temporal(TemporalType.DATE)
-    private Date fechaIncio;
-    @Basic(optional = false)
+    private LocalDate fechaIncio;
+
+    @JsonbDateFormat("yyyy-MM-dd")
     @Column(name = "fecha_fin")
-    @Temporal(TemporalType.DATE)
-    private Date fechaFin;
+    private LocalDate fechaFin;
+
     @Basic(optional = false)
     @Column(name = "saldo_inicial")
     private int saldoInicial;
+
     @Basic(optional = false)
     @Column(name = "saldo_final")
     private int saldoFinal;
+
     @Basic(optional = false)
     @Column(name = "estado")
     private String estado;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "presupuestoMensual")
+    @JsonIgnore
     private List<PresupuestoCategoria> presupuestoCategoriaList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPresupuesto")
+    @JsonIgnore
     private List<Movimientos> movimientosList;
+
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Cliente idCliente;
 
-    public PresupuestoMensual() {
-    }
-
-    public PresupuestoMensual(Integer idPresupuesto) {
-        this.idPresupuesto = idPresupuesto;
-    }
-
-    public PresupuestoMensual(Integer idPresupuesto, Date fechaIncio, Date fechaFin, int saldoInicial, int saldoFinal, String estado) {
-        this.idPresupuesto = idPresupuesto;
-        this.fechaIncio = fechaIncio;
-        this.fechaFin = fechaFin;
-        this.saldoInicial = saldoInicial;
-        this.saldoFinal = saldoFinal;
-        this.estado = estado;
-    }
-
+    // Getters y setters
     public Integer getIdPresupuesto() {
         return idPresupuesto;
     }
@@ -92,19 +71,19 @@ public class PresupuestoMensual implements Serializable {
         this.idPresupuesto = idPresupuesto;
     }
 
-    public Date getFechaIncio() {
+    public LocalDate getFechaIncio() {
         return fechaIncio;
     }
 
-    public void setFechaIncio(Date fechaIncio) {
+    public void setFechaIncio(LocalDate fechaIncio) {
         this.fechaIncio = fechaIncio;
     }
 
-    public Date getFechaFin() {
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -169,15 +148,12 @@ public class PresupuestoMensual implements Serializable {
             return false;
         }
         PresupuestoMensual other = (PresupuestoMensual) object;
-        if ((this.idPresupuesto == null && other.idPresupuesto != null) || (this.idPresupuesto != null && !this.idPresupuesto.equals(other.idPresupuesto))) {
-            return false;
-        }
-        return true;
+        return !((this.idPresupuesto == null && other.idPresupuesto != null) || 
+                (this.idPresupuesto != null && !this.idPresupuesto.equals(other.idPresupuesto)));
     }
 
     @Override
     public String toString() {
-        return "py.edu.ucom.entities.proyecto.PresupuestoMensual[ idPresupuesto=" + idPresupuesto + " ]";
+        return "ucom.py.entities.proyecto.PresupuestoMensual[ idPresupuesto=" + idPresupuesto + " ]";
     }
-
 }

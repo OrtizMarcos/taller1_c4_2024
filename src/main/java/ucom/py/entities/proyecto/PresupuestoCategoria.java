@@ -12,10 +12,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
-/**
- *
- * @author jhony
- */
+
 @Entity
 @Table(name = "presupuesto_categoria")
 @NamedQueries({
@@ -134,7 +131,7 @@ public class PresupuestoCategoria implements Serializable {
 
     @Override
     public String toString() {
-        return "py.edu.ucom.entities.proyecto.PresupuestoCategoria[ presupuestoCategoriaPK=" + presupuestoCategoriaPK + " ]";
+        return "ucom.py.entities.proyecto.PresupuestoCategoria[ presupuestoCategoriaPK=" + presupuestoCategoriaPK + " ]";
     }
 
 }

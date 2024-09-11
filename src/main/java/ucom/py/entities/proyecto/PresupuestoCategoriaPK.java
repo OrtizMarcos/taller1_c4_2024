@@ -6,10 +6,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
-/**
- *
- * @author jhony
- */
 @Embeddable
 public class PresupuestoCategoriaPK implements Serializable {
 
@@ -70,7 +66,7 @@ public class PresupuestoCategoriaPK implements Serializable {
 
     @Override
     public String toString() {
-        return "py.edu.ucom.entities.proyecto.PresupuestoCategoriaPK[ idPresupuesto=" + idPresupuesto + ", idCategoria=" + idCategoria + " ]";
+        return "ucom.py.entities.proyecto.PresupuestoCategoriaPK[ idPresupuesto=" + idPresupuesto + ", idCategoria=" + idCategoria + " ]";
     }
 
 }

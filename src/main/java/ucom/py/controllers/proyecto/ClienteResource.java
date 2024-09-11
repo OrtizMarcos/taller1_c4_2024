@@ -1,6 +1,5 @@
 package ucom.py.controllers.proyecto;
 
-
 import java.util.List;
 
 import jakarta.ws.rs.Consumes;
@@ -26,11 +25,10 @@ public class ClienteResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("detalle/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ApiResponse<Cliente> obtenerPorId(
-            @PathParam("id") Integer id) {
+    public ApiResponse<Cliente> obtenerPorId(@PathParam("id") Integer id) {
         @SuppressWarnings({ "rawtypes", "unchecked" })
         ApiResponse<Cliente> respuesta = new ApiResponse();
 
@@ -39,9 +37,8 @@ public class ClienteResource {
             respuesta.setMessage("Se obtuvo exitosamente.");
             respuesta.setData(service.obtener(id));
         } catch (Exception e) {
-
             respuesta.setCode(Response.Status.CONFLICT.getStatusCode());
-            respuesta.setMessage("No se obtuvo  la entidad con id :" + id);
+            respuesta.setMessage("No se obtuvo la entidad con id :" + id);
             respuesta.setData(null);
         }
 
@@ -49,6 +46,7 @@ public class ClienteResource {
     }
 
     @GET
+    @Path("listar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ApiResponse<List<Cliente>> listar() {
@@ -60,7 +58,6 @@ public class ClienteResource {
             respuesta.setMessage("Se obtuvo exitosamente el listado.");
             respuesta.setData(service.listar());
         } catch (Exception e) {
-
             respuesta.setCode(Response.Status.CONFLICT.getStatusCode());
             respuesta.setMessage("No se obtuvo el listado.");
             respuesta.setData(null);
@@ -70,6 +67,7 @@ public class ClienteResource {
     }
 
     @POST
+    @Path("crear")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ApiResponse<Cliente> agregar(Cliente param) {
@@ -79,7 +77,7 @@ public class ClienteResource {
         try {
             this.service.agregar(param);
             respuesta.setCode(Response.Status.OK.getStatusCode());
-            respuesta.setMessage("Se agrego exitosamente.");
+            respuesta.setMessage("Se agregó exitosamente.");
             respuesta.setData(param);
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,22 +90,22 @@ public class ClienteResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("modificar/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ApiResponse<Cliente> modificar(Cliente param, @PathParam("id") Integer Id) {
+    public ApiResponse<Cliente> modificar(Cliente param, @PathParam("id") Integer id) {
         @SuppressWarnings({ "rawtypes", "unchecked" })
         ApiResponse<Cliente> respuesta = new ApiResponse();
 
         try {
             this.service.modificar(param);
             respuesta.setCode(Response.Status.OK.getStatusCode());
-            respuesta.setMessage("Se agrego exitosamente.");
+            respuesta.setMessage("Se modificó exitosamente.");
             respuesta.setData(param);
         } catch (Exception e) {
             e.printStackTrace();
             respuesta.setCode(Response.Status.CONFLICT.getStatusCode());
-            respuesta.setMessage("No se pudo agregar la entidad.");
+            respuesta.setMessage("No se pudo modificar la entidad.");
             respuesta.setData(null);
         }
 
@@ -115,7 +113,7 @@ public class ClienteResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("eliminar/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ApiResponse<Object> eliminar(@PathParam("id") Integer id) {
@@ -125,7 +123,7 @@ public class ClienteResource {
         try {
             this.service.eliminar(id);
             respuesta.setCode(Response.Status.OK.getStatusCode());
-            respuesta.setMessage("Se elimino exitosamente.");
+            respuesta.setMessage("Se eliminó exitosamente.");
             respuesta.setData(null);
         } catch (Exception e) {
             e.printStackTrace();

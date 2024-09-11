@@ -2,6 +2,9 @@ package ucom.py.entities.proyecto;
 
 import java.io.Serializable;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -43,7 +46,7 @@ public class Cliente implements Serializable {
     @Basic(optional = false)
     @Column(name = "estado")
     private String estado;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCliente")
     private List<PresupuestoMensual> presupuestoMensualList;
 
@@ -132,7 +135,7 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "py.edu.ucom.entities.proyecto.Cliente[ idCliente=" + idCliente + " ]";
+        return "ucom.py.entities.proyecto.Cliente[ idCliente=" + idCliente + " ]";
     }
 
 }
